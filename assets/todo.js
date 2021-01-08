@@ -1,9 +1,10 @@
 
 var todo = todo || {},
     data = JSON.parse(localStorage.getItem("todoData"));
-
+//Taking the already present data from the Local Storage
 data = data || {};
 
+//Defining the defaults so that they can be used everywhere
 (function(todo, data, $) {
 
     var defaults = {
@@ -18,7 +19,7 @@ data = data || {};
         }, codes = {
             "1" : "#pending"
         };
-
+//importing iptions and passing the data to be generated through generateElement function
     todo.init = function (options) {
 
         options = options || {};
@@ -27,7 +28,7 @@ data = data || {};
         $.each(data, function (index, params) {
             generateElement(params);
         });
-
+//Configuring the drop when we drag can be integrated with the below function
         $.each(codes, function (index, value) {
             $(value).droppable({
                 drop: function (event, ui) {
@@ -45,7 +46,7 @@ data = data || {};
                     }
             });
         });
-
+//Configuring the drop when dragged to RecycleBin for Deletion
         $("#" + options.deleteDiv).droppable({
             drop: function(event, ui) {
                 var element = ui.helper,
@@ -83,7 +84,7 @@ data = data || {};
         })
 
     };
-
+//Used to generate the To-Do list from the LocalStorage
     var generateElement = function(params){
         var parent = $(codes[params.code]),
             wrapper;
@@ -125,11 +126,11 @@ data = data || {};
         });
 
     };
-
+//used to remove tasks used in multiple function
     var removeElement = function (params) {
         $("#" + defaults.taskId + params.id).remove();
     };
-
+//used to add the tasks to the local storage
     todo.add = function() {
         var inputs = $("#" + defaults.formId + " :input"),
             errorMessage = "Title can not be empty",
@@ -146,6 +147,64 @@ data = data || {};
 
         title = inputs[0].value;
         description = inputs[1].value.replace(/\s+/g,' ').trim();
+        var j =description.length;
+        for(var i=0;i<j;i++)
+        {
+            var start=i;
+            var med=-1;
+            var end=-1;    
+            var len=0;
+            
+            while(description[i]!=' '&&i<j)
+            {
+                len++;
+                if(len==30)
+                {
+                    med=i;
+                }
+                if(len>30)
+                {
+                    end=i;
+                }
+                i++;
+            }
+            console.log(description[start]);
+            console.log(description.substr(start,end+1));
+            console.log(description.substr(start,med+1));
+            if(end!=-1)
+            {
+                description=description.replace(description.substr(start,end+1),description.substr(start,med+1));
+                end=-1;
+                med=-1;
+            }
+        }
+        /*var set_of_words=[];
+        for(var i=0;i<str_nospaces.length;i++)
+        {
+            var start =i;
+            var med=-1;
+            var length=0;
+            while(str_nospaces[i]!=' '&&i<str_nospaces.size)
+            {
+                length++;
+                if(length==30)
+                {
+                    med=i;
+                }
+                i++;
+            }
+            if(length<30)
+            {
+                med=i-1;
+            }
+            set_of_words.push(str_nospaces.substr(start,med));
+        }
+        var description;
+        for(var i=0;i<set_of_words.length;i++)
+        {
+            description=description+set_of_words[i]+" ";
+        }*/
+
         date = inputs[2].value;
 
         if (!title) {
@@ -174,7 +233,7 @@ data = data || {};
         inputs[1].value = "";
         inputs[2].value = "";
     };
-
+//For error messages
     var generateDialog = function (message) {
         var responseId = "response-dialog",
             title = "Message( Not a alert() :) )",
@@ -204,7 +263,7 @@ data = data || {};
             buttons: buttonOptions
         });
     };
-
+//to reset the whole thing
     todo.clear = function () {
         data = {};
         localStorage.setItem("todoData", JSON.stringify(data));

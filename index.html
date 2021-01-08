@@ -11,11 +11,11 @@
         <div id="container">
 
             <div id="header"> To Do List </div>
-
+<!-- tasks will be shown here -->  
             <div class="task-list task-container" id="pending">
                 <h3>Pending</h3>
             </div>
-
+<!-- tasks form will be shown here -->
             <div class="task-list">
                 <h3>Add a task</h3>
                 <form id="todo-form">
@@ -26,9 +26,9 @@
                 </form>
 
                 <input type="button" class="btn btn-primary" value="Reset" onclick="todo.clear();" />
-
                 
             </div>
+            <!-- Tasks can be deleted from here -->
             <div id="delete-div" >
                     <img src=https://www.flaticon.com/svg/static/icons/svg/164/164379.svg>
                 </div>
@@ -38,7 +38,7 @@
             <script type="text/javascript" src="lib/Bootstrap/bootstrap.min.js"></script>
             <script type="text/javascript" src="lib/jQuery/jquery.ui.min.js"></script>
             <script type="text/javascript" src="assets/todo.js"></script>
-
+            
             <script type="text/javascript">
                 $( "#datepicker" ).datepicker();
                 $( "#datepicker" ).datepicker("option", "dateFormat", "dd/mm/yy");
